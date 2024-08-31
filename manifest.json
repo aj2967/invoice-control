@@ -1,0 +1,40 @@
+{
+	"manifest_version": 3,
+	"name": "Invoice Control",
+	"version": "1.0.0",
+	"description": "Exports Google Sheets invoice to PDF and uploads to Google Drive.",
+	"permissions": ["activeTab", "scripting", "identity", "storage", "notifications"],
+	"background": {
+		"service_worker": "service-worker/background.js"
+	},
+	"action": {
+		"default_popup": "popup/popup.html",
+		"default_icon": {
+			"16": "images/icon16.png",
+			"48": "images/icon64.png",
+			"128": "images/icon128.png"
+		}
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://docs.google.com/spreadsheets/*"],
+			"js": ["content/content.js"],
+			"css": ["content/styles.css"]
+		}
+	],
+	"web_accessible_resources": [
+        {
+            "resources": ["util/helper.js"],
+            "matches": ["<all_urls>"]
+        }
+    ],
+	"oauth2": {
+		"client_id": "YOUR_CLIENT_ID",
+		"scopes": [
+			"https://www.googleapis.com/auth/userinfo.profile",
+      		"https://www.googleapis.com/auth/userinfo.email",
+			"https://www.googleapis.com/auth/drive.file",
+			"https://www.googleapis.com/auth/spreadsheets.readonly"
+		]
+	}
+}

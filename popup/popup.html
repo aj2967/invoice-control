@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Invoice Control</title>
+		<link rel="stylesheet" href="popup.css" />
+	</head>
+	<body>
+		<!-- Profile information -->
+		<section class="user">
+			<div id="user-info"></div>
+		</section>
+
+		<!-- Invoice configuration -->
+		<section class="config">
+			<h2>Invoice Control</h2>
+
+			<div>
+				<p>Add your Google Drive folder ID.</p>
+				<div class="group">
+					<svg
+						width="48"
+						height="48"
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						stroke="#808080"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="icon"
+					>
+						<path
+							d="M5 2H19C20.1046 2 21 2.89543 21 4V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V4C3 2.89543 3.89543 2 5 2Z"
+						/>
+						<path d="M9 2V6H15V2" />
+					</svg>
+
+					<input id="folder-input" class="input" type="text" placeholder="Folder ID" />
+				</div>
+			</div>
+
+			<!-- <div>
+				<p>Add the email <span style="font-weight: bold">sending from</span>.</p>
+				<div class="group">
+					<svg
+						stroke="currentColor"
+						stroke-width="1.5"
+						viewBox="0 0 64 64"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						stroke="#000000"
+						class="icon"
+						width="48"
+					>
+						<polygon points="56 20 32 12 8 20 8 52 56 52 56 20" />
+						<polyline points="48 28 32 36 16 28" />
+					</svg>
+
+					<input id="sender-input" class="input" type="text" placeholder="Sender" />
+				</div>
+			</div> -->
+
+			<!-- <div>
+				<p>Add the email <span style="font-weight: bold">sending to</span>.</p>
+				<div class="group">
+					<svg
+						stroke="currentColor"
+						stroke-width="1.5"
+						viewBox="0 0 64 64"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						stroke="#000000"
+						class="icon"
+						width="48"
+					>
+						<polygon points="56 20 32 12 8 20 8 52 56 52 56 20" />
+						<polyline points="48 28 32 36 16 28" />
+					</svg>
+
+					<input id="receiver-input" class="input" type="text" placeholder="Receiver" />
+				</div>
+			</div> -->
+
+			<!-- <div>
+				<p>Keep this box checked if you wish to automatically email the pdf after export.</p>
+				<div class="checkbox-wrapper">
+					<input id="email-checkbox" name="checkbox" type="checkbox" />
+					<label class="terms-label" for="email-checkbox">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
+							<mask fill="white" id="path-1-inside-1_476_5-37">
+								<rect height="200" width="200"></rect>
+							</mask>
+							<rect
+								mask="url(#path-1-inside-1_476_5-37)"
+								stroke-width="20"
+								class="checkbox-box"
+								height="200"
+								width="200"
+							></rect>
+							<path stroke-width="7.5" d="M52 111.018L76.9867 136L149 64" class="checkbox-tick"></path>
+						</svg>
+						<span class="label-text">Send Email</span>
+					</label>
+				</div>
+			</div> -->
+		</section>
+
+		<section class="save">
+			<button id="save-button">Save Settings</button>
+		</section>
+
+		<section>
+			<div class="notify success">Success</div>
+			<div class="notify failed">Failed, please try again</div>
+		</section>
+
+		<!-- <div class="cell-input" tabindex="0" role="textbox" contenteditable="true" docs-unhandledkeys="" dir="ltr">Invioce: 60<br></div> -->
+
+		<!-- Scripts -->
+		<script src="popup.js"></script>
+	</body>
+</html>
