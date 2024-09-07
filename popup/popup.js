@@ -13,15 +13,24 @@ const notify = (title, message) => {
 function getPopupData() {
 	// Element references
 	const folderInput = document.getElementById("folder-input");
+	const sheetInput = document.getElementById("sheet-input");
+	const cellInput = document.getElementById("cell-input");
+	const filenameInput = document.getElementById("filename-input");
 	// const emailCheckbox = document.getElementById("email-checkbox");
 	const saveButton = document.getElementById("save-button");
 
 	// Load stored values from local storage
 	chrome.storage.local.get([
 		"folderInput",
+		"sheetInput",
+		"cellInput",
+		"filenameInput"
 		// "emailCheckbox"
 	], function (result) {
 		folderInput.value = result.folderInput || "";
+		sheetInput.value = result.sheetInput || "";
+		cellInput.value = result.cellInput || "";
+		filenameInput.value = result.filenameInput || "";
 		// emailCheckbox.checked = result.emailCheckbox || false;
 	});
 
@@ -32,6 +41,9 @@ function getPopupData() {
 function storePopupData() {
 	// Element references
 	const folderInput = document.getElementById("folder-input").value;
+	const sheetInput = document.getElementById("sheet-input").value;
+	const cellInput = document.getElementById("cell-input").value;
+	const filenameInput = document.getElementById("filename-input").value;
 	// const emailCheckbox = document.getElementById("email-checkbox").checked;
 
 	// if (!isValidEmail()) {
@@ -41,6 +53,9 @@ function storePopupData() {
 
 	chrome.storage.local.set({
 		folderInput: folderInput,
+		sheetInput: sheetInput,
+		cellInput: cellInput,
+		filenameInput: filenameInput
 		// emailCheckbox: emailCheckbox,
 	});
 

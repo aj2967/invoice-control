@@ -6,3 +6,9 @@ const sendNotification = (title, message) => {
 		message: message,
 	});
 };
+
+function extractInvoiceNumber(cellValue) {
+	const match = cellValue.match(/Invoice:\s*(\d+)/);
+	console.log("match", match);
+	return match ? match[1] : null;
+}

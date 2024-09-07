@@ -26,11 +26,8 @@ function addButton() {
 	button.addEventListener("click", async () => {
 		try {
 			// Input validation
-			const inputData = await requestPopupData();
-			if (!inputData.folderInput || inputData.folderInput === undefined || inputData.folderInput === "") {
-				notify("Failed", "Please enter a valid folder ID in the extension popup configuration.");
-				throw new Error("Please enter a valid folder ID in the extension popup configuration.");
-			}
+			const inputCheck = await validateInputFields();
+			if (!inputCheck) return;
 
 			// Initiate loading state
 			button.classList.add("isLoading");
@@ -67,11 +64,6 @@ function getSelectedSheetId() {
 	const url = window.location.href;
 	const params = new URLSearchParams(url.split("?")[1]);
 	return params.get("gid");
-}
-
-function extractInvoiceNumber(cellValue) {
-	const match = cellValue.match(/Invoice:\s*(\d+)/);
-	return match ? match[1] : null;
 }
 
 async function getCellValue(spreadsheetId, cellRange, token) {
@@ -114,15 +106,15 @@ async function uploadToDrive(pdfData) {
 		const token = await getAuthTokenFromStorage();
 		const inputData = await requestPopupData();
 		const spreadsheetId = getSpreadsheetId();
-		const cellValue = await getCellValue(spreadsheetId, "Invoice!D12", token);
-		let invoiceNumber = extractInvoiceNumber(cellValue) || new Date().getTime();
+		const cellValue = await getCellValue(spreadsheetId, `${inputData.sheetInput}!${inputData.cellInput}`, token);
+		const invoiceNumber = cellValue ?? new Date().getTime();
 
 		if (!inputData.folderInput) {
 			throw new Error("Failed to get Drive Folder ID");
 		}
 
 		const metadata = {
-			name: `${invoiceNumber}.pdf`,
+			name: `${inputData.filenameInput} ${invoiceNumber}.pdf`,
 			mimeType: "application/pdf",
 			parents: [inputData.folderInput],
 		};
@@ -218,16 +210,45 @@ async function getUser() {
 // Helper Functions
 function requestPopupData() {
 	return new Promise((resolve, reject) => {
-		chrome.storage.local.get(["folderInput"], function (result) {
+		chrome.storage.local.get(["folderInput", "sheetInput", "cellInput", "filenameInput"], function (result) {
 			if (chrome.runtime.lastError) {
 				reject(chrome.runtime.lastError);
 			} else {
 				resolve({
 					folderInput: result.folderInput,
+					sheetInput: result.sheetInput,
+					cellInput: result.cellInput,
+					filenameInput: result.filenameInput,
 				});
 			}
 		});
 	});
+}
+
+function removeInputAndCapitalize(str) {
+	return str.replace("Input", "").charAt(0).toUpperCase() + str.replace("Input", "").slice(1);
+}
+
+async function validateInputFields() {
+	const popupData = await requestPopupData();
+	let invalidValue = "";
+
+	const allValid = Object.entries(popupData).every(([key, value]) => {
+		if (!value) {
+			invalidValue = removeInputAndCapitalize(key);
+			return false;
+		}
+		return true;
+	});
+
+	if (!allValid) {
+		notify(
+			"Failed to export",
+			`Please enter a valid ${invalidValue} input field in the extension popup configuration.`
+		);
+	}
+
+	return allValid;
 }
 
 const notify = (title, message) => {
