@@ -1,5 +1,5 @@
 key.pem
 .env
 .env.example
-.manfest.json
+manfest.json
 readme.md
